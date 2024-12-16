@@ -28,7 +28,7 @@ private:
 
     void clearScene();
     void addGate(QWidget* gateWidget, std::vector<QPointF>& connection_points,
-                 int x_offset, int y_offset, int inputs = 2);
+                 int x_offset, int y_offset, int inputs = 2, int flag = 0, int dist = 0, int inv = 0);
 };
 
 #endif // DRAWER_H

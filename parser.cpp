@@ -4,21 +4,23 @@
 #include <stack>
 #include <map>
 #include <sstream>
+#include <stdexcept>
+#include <QApplication>
 
 Parser::Parser(const std::string& expr) : infix_str(expr) {
     priority["("] = 0;
     priority[")"] = 0;
 
-    priority["/"] = 1; // ИЛИ
+    priority["|"] = 1; // ИЛИ
     priority["+"] = 1; // ИСКЛ ИЛИ
-    priority["↔"] = 1; // НЕ ИСКЛ ИЛИ
-    priority["↓"] = 1; // НЕ ИЛИ
+    priority["-"] = 1; // НЕ ИСКЛ ИЛИ
+    priority["/"] = 1; // НЕ ИЛИ
 
-    priority["^"] = 2; // И
-    priority["|"] = 2; // НЕ И
+    priority["&"] = 2; // И
+    priority["^"] = 2; // НЕ И
 
     priority["!"] = 3; // НЕ
-    priority["?"] = 3; // Буф
+    priority["~"] = 3; // Буф
 }
 
 Parser::~Parser() {
@@ -79,3 +81,7 @@ std::string Parser::get_func_from_string(const std::string& expr, int& pos) {
     }
     return str_func;
 }
+
+
+
+

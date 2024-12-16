@@ -7,6 +7,10 @@ Nand::Nand(QWidget *parent) : QWidget(parent) {
 void Nand::paintEvent(QPaintEvent *event) {
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing, true);
+    int input1[] = {10, 40};
+    int input2[] = {10, 70};
+    int output[] = {190, 55};
+
 
     QRect rect(10, 10, 180, 80);
     int radius = 40;
@@ -18,10 +22,13 @@ void Nand::paintEvent(QPaintEvent *event) {
     path.lineTo(rect.bottomLeft());
     path.closeSubpath();
 
-    p.setBrush(Qt::cyan);
-    p.setPen(Qt::black);
+    p.setBrush(Qt::white);
+    p.setPen(QPen(Qt::black, 2));
     p.drawPath(path);
 
     p.setBrush(Qt::red);
-    p.drawEllipse(QPoint(190, 50), 5, 5);
+    p.drawEllipse(QPoint(input1[0], input1[1]), 2, 2);
+    p.drawEllipse(QPoint(input2[0], input2[1]), 2, 2);
+    p.setBrush(Qt::white);
+    p.drawEllipse(QPoint(output[0], output[1]), 10, 10);
 }

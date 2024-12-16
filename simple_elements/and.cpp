@@ -1,4 +1,7 @@
 #include "and.h"
+#include <QGraphicsProxyWidget>
+#include <QPainter>
+#include <QPainterPath>
 
 And::And(QWidget *parent) : QWidget(parent) {
     setFixedSize(200, 100);
@@ -10,12 +13,10 @@ void And::paintEvent(QPaintEvent *event) {
 
     QRect rect(10, 10, 180, 90);
     int radius = 40;
-    input1[0] = 40;
-    input1[1] = 10;
-    input2[0] = 70;
-    input2[1] = 10;
-    output[0] = 55;
-    output[1] = 190;
+    int input1[] = {10, 40};
+    int input2[] = {10, 70};
+    int output[] = {190, 55};
+
 
     QPainterPath path;
     path.moveTo(rect.topLeft());
@@ -24,12 +25,13 @@ void And::paintEvent(QPaintEvent *event) {
     path.lineTo(rect.bottomLeft());
     path.closeSubpath();
 
-    p.setBrush(Qt::cyan);
-    p.setPen(Qt::black);
+    p.setBrush(Qt::white);
+    p.setPen(QPen(Qt::black, 2));
     p.drawPath(path);
 
     p.setBrush(Qt::red);
-    p.drawEllipse(QPoint(input1[0], input1[1]), 1, 1);
-    p.drawEllipse(QPoint(input2[0], input2[1]), 1, 1);
-    p.drawEllipse(QPoint(output[0], output[1]), 1, 1);
+    p.drawEllipse(QPoint(input1[0], input1[1]), 2, 2);
+    p.drawEllipse(QPoint(input2[0], input2[1]), 2, 2);
+    p.drawEllipse(QPoint(output[0], output[1]), 2, 2);
 }
+
