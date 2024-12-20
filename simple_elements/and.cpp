@@ -4,7 +4,7 @@
 #include <QPainterPath>
 
 And::And(QWidget *parent) : QWidget(parent) {
-    setFixedSize(200, 100);
+    setFixedSize(200, 110);
 }
 
 void And::paintEvent(QPaintEvent *event) {

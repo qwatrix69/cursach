@@ -37,7 +37,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = cursach1.0.0
-DISTDIR = /home/qwatrix69/cursach/build/Desktop-Debug/.tmp/cursach1.0.0
+DISTDIR = /home/qwatrix69/temp_curasch/cursach/build/Desktop-Debug/.tmp/cursach1.0.0
 LINK          = clang++
 LFLAGS        = -ccc-gcc-name g++ -Wl,-rpath-link,/usr/lib/x86_64-linux-gnu
 LIBS          = $(SUBLIBS) /usr/lib/x86_64-linux-gnu/libQt6Widgets.so /usr/lib/x86_64-linux-gnu/libQt6Gui.so /usr/lib/x86_64-linux-gnu/libGLX.so /usr/lib/x86_64-linux-gnu/libOpenGL.so /usr/lib/x86_64-linux-gnu/libQt6Core.so -lpthread -lGLX -lOpenGL   
@@ -52,7 +52,8 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../../drawer.cpp \
+SOURCES       = ../../complex_elements/multiplexer.cpp \
+		../../drawer.cpp \
 		../../main.cpp \
 		../../mainwindow.cpp \
 		../../parser.cpp \
@@ -63,7 +64,8 @@ SOURCES       = ../../drawer.cpp \
 		../../simple_elements/nor.cpp \
 		../../simple_elements/or.cpp \
 		../../simple_elements/xnor.cpp \
-		../../simple_elements/xor.cpp moc_mainwindow.cpp \
+		../../simple_elements/xor.cpp \
+		../../truth_table_window.cpp moc_mainwindow.cpp \
 		moc_and.cpp \
 		moc_buffer.cpp \
 		moc_invertor.cpp \
@@ -71,8 +73,10 @@ SOURCES       = ../../drawer.cpp \
 		moc_nor.cpp \
 		moc_or.cpp \
 		moc_xnor.cpp \
-		moc_xor.cpp
-OBJECTS       = drawer.o \
+		moc_xor.cpp \
+		moc_truth_table_window.cpp
+OBJECTS       = multiplexer.o \
+		drawer.o \
 		main.o \
 		mainwindow.o \
 		parser.o \
@@ -84,6 +88,7 @@ OBJECTS       = drawer.o \
 		or.o \
 		xnor.o \
 		xor.o \
+		truth_table_window.o \
 		moc_mainwindow.o \
 		moc_and.o \
 		moc_buffer.o \
@@ -92,7 +97,8 @@ OBJECTS       = drawer.o \
 		moc_nor.o \
 		moc_or.o \
 		moc_xnor.o \
-		moc_xor.o
+		moc_xor.o \
+		moc_truth_table_window.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/common/linux.conf \
@@ -158,7 +164,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/lex.prf \
-		../../../../cursach.pro ../../drawer.h \
+		../../../../cursach.pro ../../complex_elements/multiplexer.h \
+		../../drawer.h \
 		../../mainwindow.h \
 		../../parser.h \
 		../../simple_elements/and.h \
@@ -168,7 +175,9 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
 		../../simple_elements/nor.h \
 		../../simple_elements/or.h \
 		../../simple_elements/xnor.h \
-		../../simple_elements/xor.h ../../drawer.cpp \
+		../../simple_elements/xor.h \
+		../../truth_table_window.h ../../complex_elements/multiplexer.cpp \
+		../../drawer.cpp \
 		../../main.cpp \
 		../../mainwindow.cpp \
 		../../parser.cpp \
@@ -179,7 +188,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
 		../../simple_elements/nor.cpp \
 		../../simple_elements/or.cpp \
 		../../simple_elements/xnor.cpp \
-		../../simple_elements/xor.cpp
+		../../simple_elements/xor.cpp \
+		../../truth_table_window.cpp
 QMAKE_TARGET  = cursach
 DESTDIR       = 
 TARGET        = cursach
@@ -345,8 +355,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../drawer.h ../../mainwindow.h ../../parser.h ../../simple_elements/and.h ../../simple_elements/buffer.h ../../simple_elements/invertor.h ../../simple_elements/nand.h ../../simple_elements/nor.h ../../simple_elements/or.h ../../simple_elements/xnor.h ../../simple_elements/xor.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../drawer.cpp ../../main.cpp ../../mainwindow.cpp ../../parser.cpp ../../simple_elements/and.cpp ../../simple_elements/buffer.cpp ../../simple_elements/invertor.cpp ../../simple_elements/nand.cpp ../../simple_elements/nor.cpp ../../simple_elements/or.cpp ../../simple_elements/xnor.cpp ../../simple_elements/xor.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../complex_elements/multiplexer.h ../../drawer.h ../../mainwindow.h ../../parser.h ../../simple_elements/and.h ../../simple_elements/buffer.h ../../simple_elements/invertor.h ../../simple_elements/nand.h ../../simple_elements/nor.h ../../simple_elements/or.h ../../simple_elements/xnor.h ../../simple_elements/xor.h ../../truth_table_window.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../complex_elements/multiplexer.cpp ../../drawer.cpp ../../main.cpp ../../mainwindow.cpp ../../parser.cpp ../../simple_elements/and.cpp ../../simple_elements/buffer.cpp ../../simple_elements/invertor.cpp ../../simple_elements/nand.cpp ../../simple_elements/nor.cpp ../../simple_elements/or.cpp ../../simple_elements/xnor.cpp ../../simple_elements/xor.cpp ../../truth_table_window.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../../mainwindow.ui $(DISTDIR)/
 
 
@@ -379,53 +389,58 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp
 	clang++ -pipe -g -std=gnu++1z -Wall -Wextra -fPIC -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_and.cpp moc_buffer.cpp moc_invertor.cpp moc_nand.cpp moc_nor.cpp moc_or.cpp moc_xnor.cpp moc_xor.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_and.cpp moc_buffer.cpp moc_invertor.cpp moc_nand.cpp moc_nor.cpp moc_or.cpp moc_xnor.cpp moc_xor.cpp moc_truth_table_window.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_and.cpp moc_buffer.cpp moc_invertor.cpp moc_nand.cpp moc_nor.cpp moc_or.cpp moc_xnor.cpp moc_xor.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_and.cpp moc_buffer.cpp moc_invertor.cpp moc_nand.cpp moc_nor.cpp moc_or.cpp moc_xnor.cpp moc_xor.cpp moc_truth_table_window.cpp
 moc_mainwindow.cpp: ../../mainwindow.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/qwatrix69/cursach/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/qwatrix69/cursach -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../mainwindow.h -o moc_mainwindow.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/qwatrix69/temp_curasch/cursach/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/qwatrix69/temp_curasch/cursach -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../mainwindow.h -o moc_mainwindow.cpp
 
 moc_and.cpp: ../../simple_elements/and.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/qwatrix69/cursach/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/qwatrix69/cursach -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../simple_elements/and.h -o moc_and.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/qwatrix69/temp_curasch/cursach/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/qwatrix69/temp_curasch/cursach -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../simple_elements/and.h -o moc_and.cpp
 
 moc_buffer.cpp: ../../simple_elements/buffer.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/qwatrix69/cursach/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/qwatrix69/cursach -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../simple_elements/buffer.h -o moc_buffer.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/qwatrix69/temp_curasch/cursach/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/qwatrix69/temp_curasch/cursach -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../simple_elements/buffer.h -o moc_buffer.cpp
 
 moc_invertor.cpp: ../../simple_elements/invertor.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/qwatrix69/cursach/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/qwatrix69/cursach -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../simple_elements/invertor.h -o moc_invertor.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/qwatrix69/temp_curasch/cursach/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/qwatrix69/temp_curasch/cursach -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../simple_elements/invertor.h -o moc_invertor.cpp
 
 moc_nand.cpp: ../../simple_elements/nand.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/qwatrix69/cursach/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/qwatrix69/cursach -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../simple_elements/nand.h -o moc_nand.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/qwatrix69/temp_curasch/cursach/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/qwatrix69/temp_curasch/cursach -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../simple_elements/nand.h -o moc_nand.cpp
 
 moc_nor.cpp: ../../simple_elements/nor.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/qwatrix69/cursach/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/qwatrix69/cursach -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../simple_elements/nor.h -o moc_nor.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/qwatrix69/temp_curasch/cursach/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/qwatrix69/temp_curasch/cursach -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../simple_elements/nor.h -o moc_nor.cpp
 
 moc_or.cpp: ../../simple_elements/or.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/qwatrix69/cursach/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/qwatrix69/cursach -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../simple_elements/or.h -o moc_or.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/qwatrix69/temp_curasch/cursach/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/qwatrix69/temp_curasch/cursach -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../simple_elements/or.h -o moc_or.cpp
 
 moc_xnor.cpp: ../../simple_elements/xnor.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/qwatrix69/cursach/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/qwatrix69/cursach -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../simple_elements/xnor.h -o moc_xnor.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/qwatrix69/temp_curasch/cursach/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/qwatrix69/temp_curasch/cursach -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../simple_elements/xnor.h -o moc_xnor.cpp
 
 moc_xor.cpp: ../../simple_elements/xor.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/qwatrix69/cursach/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/qwatrix69/cursach -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../simple_elements/xor.h -o moc_xor.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/qwatrix69/temp_curasch/cursach/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/qwatrix69/temp_curasch/cursach -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../simple_elements/xor.h -o moc_xor.cpp
+
+moc_truth_table_window.cpp: ../../truth_table_window.h \
+		moc_predefs.h \
+		/usr/lib/qt6/libexec/moc
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/qwatrix69/temp_curasch/cursach/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/qwatrix69/temp_curasch/cursach -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../truth_table_window.h -o moc_truth_table_window.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -448,11 +463,18 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
+multiplexer.o: ../../complex_elements/multiplexer.cpp ../../complex_elements/multiplexer.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o multiplexer.o ../../complex_elements/multiplexer.cpp
+
 drawer.o: ../../drawer.cpp ../../drawer.h \
 		../../simple_elements/and.h \
 		../../simple_elements/or.h \
 		../../simple_elements/invertor.h \
-		../../simple_elements/xor.h
+		../../simple_elements/xor.h \
+		../../simple_elements/buffer.h \
+		../../simple_elements/nand.h \
+		../../simple_elements/nor.h \
+		../../simple_elements/xnor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o drawer.o ../../drawer.cpp
 
 main.o: ../../main.cpp ../../parser.h \
@@ -460,7 +482,12 @@ main.o: ../../main.cpp ../../parser.h \
 		../../simple_elements/and.h \
 		../../simple_elements/or.h \
 		../../simple_elements/invertor.h \
-		../../simple_elements/xor.h
+		../../simple_elements/xor.h \
+		../../simple_elements/buffer.h \
+		../../simple_elements/nand.h \
+		../../simple_elements/nor.h \
+		../../simple_elements/xnor.h \
+		../../truth_table_window.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../main.cpp
 
 mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
@@ -494,6 +521,9 @@ xnor.o: ../../simple_elements/xnor.cpp ../../simple_elements/xnor.h
 xor.o: ../../simple_elements/xor.cpp ../../simple_elements/xor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o xor.o ../../simple_elements/xor.cpp
 
+truth_table_window.o: ../../truth_table_window.cpp ../../truth_table_window.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o truth_table_window.o ../../truth_table_window.cpp
+
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
 
@@ -520,6 +550,9 @@ moc_xnor.o: moc_xnor.cpp
 
 moc_xor.o: moc_xor.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_xor.o moc_xor.cpp
+
+moc_truth_table_window.o: moc_truth_table_window.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_truth_table_window.o moc_truth_table_window.cpp
 
 ####### Install
 

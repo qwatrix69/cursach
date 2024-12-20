@@ -9,11 +9,14 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    complex_elements/multiplexer.cpp \
+    complex_elements/cd.cpp \
+    complex_elements/dc.cpp \
+    complex_elements/mul.cpp \
     drawer.cpp \
     main.cpp \
     mainwindow.cpp \
     parser.cpp \
+    priority_window.cpp \
     simple_elements/and.cpp \
     simple_elements/buffer.cpp \
     simple_elements/invertor.cpp \
@@ -25,10 +28,13 @@ SOURCES += \
     truth_table_window.cpp
 
 HEADERS += \
-    complex_elements/multiplexer.h \
+    complex_elements/cd.h \
+    complex_elements/dc.h \
+    complex_elements/mul.h \
     drawer.h \
     mainwindow.h \
     parser.h \
+    priority_window.h \
     simple_elements/and.h \
     simple_elements/buffer.h \
     simple_elements/invertor.h \
