@@ -1,114 +1,76 @@
 #include "truth_table_window.h"
-#include <QVBoxLayout>
-#include <QLabel>
-#include <QTableWidget>
-#include <QHeaderView>
-#include <map>
-#include <set>
-#include <QTableWidgetItem>
-#include <bitset>
-#include <stack>
-#include <string>
-#include <cctype>
 
-// Конструктор
 TruthTableWindow::TruthTableWindow(QWidget *parent) : QWidget(parent) {
     setWindowTitle("Таблица истинности");
-    setGeometry(100, 100, 800, 600);
+    setGeometry(100, 100, 1000, 600);
 }
 
-// Метод для генерации таблицы истинности
 void TruthTableWindow::makeTruthTable(const std::string& postfixExpr) {
     std::vector<std::string> variables = get_variables_from_postfix(postfixExpr); // Получаем список переменных из выражения
     int n = variables.size();
-    int totalCombinations = 1 << n; // 2^n комбинаций
-
-    // Получаем количество операторов
+    int totalCombinations = 1 << n;
     int operatorsCount = count_operators(postfixExpr);
-
-    // Количество промежуточных столбцов (один для каждого оператора)
     int intermediateColumns = operatorsCount;
 
-    // Таблица будет иметь n переменных + intermediateColumns + 1 для итогового результата
     QTableWidget *table = new QTableWidget(totalCombinations, n + intermediateColumns );
     QStringList headerLabels;
 
-    // Добавляем столбцы для переменных
     for (const std::string& var : variables) {
-        headerLabels.append(QString::fromStdString(var)); // Преобразуем строку в QString
+        headerLabels.append(QString::fromStdString(var));
     }
 
-    // Добавляем столбцы для промежуточных результатов
     for (int i = 0; i < intermediateColumns; ++i) {
         headerLabels.append(QString("Intermediate %1").arg(i + 1)); // Промежуточный результат
     }
 
     table->setHorizontalHeaderLabels(headerLabels);
-
-    // Заполнение таблицы
     for (int i = 0; i < totalCombinations; ++i) {
         std::map<std::string, bool> values;
-
-        // Заполняем таблицу значениями переменных
         for (int j = 0; j < n; ++j) {
-            // Проверяем j-й бит числа i
             values[variables[j]] = (i >> (n - j - 1)) & 1;
             table->setItem(i, j, new QTableWidgetItem(values[variables[j]] ? "1" : "0"));
         }
 
-        // Для каждого набора значений переменных вычисляем промежуточные результаты
         std::vector<std::string> intermediateResults;
         std::vector<std::string> headers;
         evaluate_with_intermediates(postfixExpr, values, intermediateResults, headers);
-
-        // Заполняем таблицу промежуточными результатами
         for (int j = 0; j < intermediateColumns; ++j) {
             table->setItem(i, n + j, new QTableWidgetItem(QString::fromStdString(intermediateResults[j])));
         }
-
         QStringList headerLabels1;
 
-        // Добавляем столбцы для переменных
         for (const std::string& var : variables) {
-            headerLabels1.append(QString::fromStdString(var)); // Преобразуем строку в QString
+            headerLabels1.append(QString::fromStdString(var));
         }
 
-        // Добавляем столбцы для промежуточных результатов
         for (int i = 0; i < intermediateColumns; ++i) {
-            if (!headers.empty()) {  // Проверяем, что вектор не пуст
-                std::string temp = headers.front(); // Получаем последний элемент
-                headers.erase(headers.begin()); // Удаляем последний элемент
-                headerLabels1.append(QString::fromStdString(temp)); // Промежуточный результат
+            if (!headers.empty()) {
+                std::string temp = headers.front();
+                headers.erase(headers.begin());
+                headerLabels1.append(QString::fromStdString(temp));
             } else {
-                // Если вектор пуст, можно добавить дефолтный текст
-                headerLabels1.append("Unknown Intermediate");
+                headerLabels1.append("Ошибка");
             }
         }
-
-
         table->setHorizontalHeaderLabels(headerLabels1);
-
-        // Вычисление итогового результата
         bool result = evaluate_postfix(postfixExpr, values);
         table->setItem(i, n + intermediateColumns, new QTableWidgetItem(result ? "1" : "0"));
     }
-
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(table);
     setLayout(layout);
 }
 
-// Метод для извлечения переменных из постфиксной записи
 std::vector<std::string> TruthTableWindow::get_variables_from_postfix(const std::string& postfixExpr) {
-    std::vector<std::string> variables;  // Для хранения переменных в порядке появления
-    std::set<std::string> seen;         // Для проверки на уникальность
+    std::vector<std::string> variables;
+    std::set<std::string> seen;
 
     for (char c : postfixExpr) {
-        if (std::isalpha(c)) {  // Если символ - буква
-            std::string var(1, c);  // Преобразуем символ в строку
-            if (seen.find(var) == seen.end()) {  // Если переменной ещё не было
-                variables.push_back(var);       // Добавляем в список
-                seen.insert(var);               // Помечаем переменную как "уже встречалась"
+        if (std::isalpha(c)) {
+            std::string var(1, c);
+            if (seen.find(var) == seen.end()) {
+                variables.push_back(var);
+                seen.insert(var);
             }
         }
     }

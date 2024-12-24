@@ -1,8 +1,7 @@
 #ifndef INVERTOR_H
 #define INVERTOR_H
 
-#include <QWidget>
-#include <QPainter>
+#include "../headers.h"
 
 class Invertor : public QWidget {
     Q_OBJECT

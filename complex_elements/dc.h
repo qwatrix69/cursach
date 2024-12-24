@@ -1,17 +1,14 @@
 #ifndef DC_H
 #define DC_H
 
-#include <QWidget>
-#include <QPainter>
-#include <QPainterPath>
+#include "../headers.h"
 
 class Dc : public QWidget {
     Q_OBJECT
 
 private:
-    int address_inputs; // Количество адресных входов
-    int data_outputs;    // Количество выходов данных
-    //std::string func_type;      // Тип функции мультиплексора (например, X + Y или /X)
+    int address_inputs;
+    int data_outputs;
     std::string oper1;
     std::string oper2;
 

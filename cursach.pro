@@ -32,6 +32,7 @@ HEADERS += \
     complex_elements/dc.h \
     complex_elements/mul.h \
     drawer.h \
+    headers.h \
     mainwindow.h \
     parser.h \
     priority_window.h \

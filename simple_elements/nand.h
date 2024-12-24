@@ -1,9 +1,7 @@
 #ifndef NAND_H
 #define NAND_H
 
-#include <QWidget>
-#include <QPainter>
-#include <QPainterPath>
+#include "../headers.h"
 
 class Nand : public QWidget {
     Q_OBJECT

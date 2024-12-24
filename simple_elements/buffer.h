@@ -1,8 +1,7 @@
 #ifndef BUFFER_H
 #define BUFFER_H
 
-#include <QWidget>
-#include <QPainter>
+#include "../headers.h"
 
 class Buffer : public QWidget {
     Q_OBJECT

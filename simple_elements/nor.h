@@ -1,9 +1,7 @@
 #ifndef NOR_H
 #define NOR_H
 
-#include <QWidget>
-#include <QPainter>
-#include <QPainterPath>
+#include "../headers.h"
 
 class Nor : public QWidget {
     Q_OBJECT

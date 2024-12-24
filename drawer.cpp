@@ -1,11 +1,5 @@
 #include "drawer.h"
 
-#include <QGraphicsScene>
-#include <QGraphicsProxyWidget>
-#include <QGraphicsLineItem>
-#include <QGraphicsTextItem>
-#include <QDebug>
-
 Drawer::Drawer(QGraphicsScene* scene) : scene(scene) {}
 
 Drawer::~Drawer() {
@@ -14,13 +8,10 @@ Drawer::~Drawer() {
 
 void Drawer::drawScheme(const std::string& postfixExpr) {
     clearScene();
-
     int x_offset_operands = 50;
     int y_offset_operands = 50;
-
     int x_offset_gates = 100;
     int dist = 20;
-
     std::vector<QPointF> connection_points;
 
     for (char c : postfixExpr) {
@@ -86,29 +77,24 @@ void Drawer::addGate(QWidget *gateWidget, std::vector<QPointF> &connection_point
         QPoint input2;
         QPoint output;
         int add = 0;
-
         if (inv == 1) {
-            add = 4;
+            add = 5;
         }
-
         if (inputs == 2 and flag == 0) {
             input1 = QPoint(x_offset + 10, y_offset + 40);
             input2 = QPoint(x_offset + 10, y_offset + 70);
             output = QPoint(x_offset + 190 + add, y_offset + 55);
         }
-
         else if (inputs == 2 and flag == 1) {
             input1 = QPoint(x_offset + 30, y_offset + 30);
             input2 = QPoint(x_offset + 30, y_offset + 70);
             output = QPoint(x_offset + 140 + add, y_offset + 50);
         }
-
         else if (inputs == 2 and flag == 2) {
             input1 = QPoint(x_offset + 25, y_offset + 30);
             input2 = QPoint(x_offset + 25, y_offset + 70);
             output = QPoint(x_offset + 140 + add, y_offset + 50);
         }
-
         else if (inputs == 1) {
             QPoint input1 = QPoint(x_offset + 10, y_offset + 55);
             QPoint output = QPoint(x_offset + 190 + add, y_offset + 55);
@@ -123,7 +109,6 @@ void Drawer::addGate(QWidget *gateWidget, std::vector<QPointF> &connection_point
             else {
                 line_part_x_2 = QPoint(p1.x() + dist, p1.y() + delta_y);
             }
-
             QGraphicsLineItem* line_x_1 = new QGraphicsLineItem(p1.x(), p1.y(), line_part_x_1.x(), line_part_x_1.y());
             QGraphicsLineItem* line_x_2 = new QGraphicsLineItem(line_part_x_1.x(), line_part_x_1.y(), line_part_x_2.x(), line_part_x_2.y());
             QGraphicsLineItem* line_x_3 = new QGraphicsLineItem(line_part_x_2.x(), line_part_x_2.y(), input1.x(), input1.y());
@@ -137,12 +122,10 @@ void Drawer::addGate(QWidget *gateWidget, std::vector<QPointF> &connection_point
             connection_points.push_back(output);
             break;
         }
-
         QPointF p2 = connection_points.back();
         connection_points.pop_back();
         QPointF p1 = connection_points.back();
         connection_points.pop_back();
-
         QPoint line_part_x_1 = QPoint(p1.x() + dist, p1.y());
         int delta_y = p1.y() - input1.y();
         QPoint line_part_x_2;
@@ -195,10 +178,8 @@ void Drawer::drawMul(const std::string& postfixExpr) {
 
     int x_offset_operands = 50;
     int y_offset_operands = 50;
-
-    int x_offset_gates = 100;
+    int x_offset_gates = 140;
     int dist = 20;
-
     std::vector<QPointF> connection_points;
     std::stack<std::string> stack_str;
 
@@ -216,72 +197,72 @@ void Drawer::drawMul(const std::string& postfixExpr) {
             QPointF temp = connection_points[connection_points.size() - 2];
             std::string oper2 = stack_str.top(); stack_str.pop();
             std::string oper1 = stack_str.top(); stack_str.pop();
-            add_mul(new Mul(4, "&", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, 2);
+            add_mul(new Mul(4, "&", oper1, oper2), connection_points, x_offset_gates, temp.y() - 20, dist, 2);
             std::string temp_str = oper1 + " & " + oper2;
             stack_str.push(temp_str);
-            x_offset_gates += 350;
-            dist += 180;
+            x_offset_gates += 200;
+            dist += 10;
         } else if (c == '^') {
             QPointF temp = connection_points[connection_points.size() - 2];
             std::string oper2 = stack_str.top(); stack_str.pop();
             std::string oper1 = stack_str.top(); stack_str.pop();
             std::string temp_str = oper1 + " ^ " + oper2;
             stack_str.push(temp_str);
-            add_mul(new Mul(4, "^", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, 2);
-            x_offset_gates += 350;
-            dist += 180;
+            add_mul(new Mul(4, "^", oper1, oper2), connection_points, x_offset_gates, temp.y() - 20, dist, 2);
+            x_offset_gates += 200;
+            dist += 10;
         } else if (c == '|') {
             QPointF temp = connection_points[connection_points.size() - 2];
             std::string oper2 = stack_str.top(); stack_str.pop();
             std::string oper1 = stack_str.top(); stack_str.pop();
             std::string temp_str = oper1 + " | " + oper2;
             stack_str.push(temp_str);
-            add_mul(new Mul(4, "|", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, 2);
-            x_offset_gates += 350;
-            dist += 180;
+            add_mul(new Mul(4, "|", oper1, oper2), connection_points, x_offset_gates, temp.y() - 20, dist, 2);
+            x_offset_gates += 200;
+            dist += 10;
         } else if (c == '!') {
             QPointF temp = connection_points.back();
             std::string oper1 = stack_str.top(); stack_str.pop();
             std::string temp_str = "!" + oper1;
             stack_str.push(temp_str);
-            add_mul(new Mul(2, "!", oper1, "none"), connection_points, x_offset_gates, temp.y(), dist, 1);
-            x_offset_gates += 350;
-            dist += 180;
+            add_mul(new Mul(2, "!", oper1, "none"), connection_points, x_offset_gates, temp.y() - 20, dist, 1);
+            x_offset_gates += 220;
+            dist += 10;
         } else if (c == '~') {
             QPointF temp = connection_points.back();
             std::string oper1 = stack_str.top(); stack_str.pop();
             std::string temp_str = "~" + oper1;
             stack_str.push(temp_str);
-            add_mul(new Mul(2, "~", oper1, "none"), connection_points, x_offset_gates, temp.y(), dist, 1);
-            x_offset_gates += 350;
-            dist += 180;
+            add_mul(new Mul(2, "~", oper1, "none"), connection_points, x_offset_gates, temp.y() - 20, dist, 1);
+            x_offset_gates += 220;
+            dist += 80;
         } else if (c == '/') {
             QPointF temp = connection_points[connection_points.size() - 2];
             std::string oper2 = stack_str.top(); stack_str.pop();
             std::string oper1 = stack_str.top(); stack_str.pop();
             std::string temp_str = oper1 + " / " + oper2;
             stack_str.push(temp_str);
-            add_mul(new Mul(4, "/", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, 2);
-            x_offset_gates += 350;
-            dist += 180;
+            add_mul(new Mul(4, "/", oper1, oper2), connection_points, x_offset_gates, temp.y() - 20, dist, 2);
+            x_offset_gates += 200;
+            dist += 10;
         } else if (c == '+') {
             QPointF temp = connection_points[connection_points.size() - 2];
             std::string oper2 = stack_str.top(); stack_str.pop();
             std::string oper1 = stack_str.top(); stack_str.pop();
             std::string temp_str = oper1 + " + " + oper2;
             stack_str.push(temp_str);
-            add_mul(new Mul(4, "+", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, 2);
-            x_offset_gates += 350;
-            dist += 180;
+            add_mul(new Mul(4, "+", oper1, oper2), connection_points, x_offset_gates, temp.y() - 20, dist, 2);
+            x_offset_gates += 200;
+            dist += 10;
         } else if (c == '-') {
             QPointF temp = connection_points[connection_points.size() - 2];
             std::string oper2 = stack_str.top(); stack_str.pop();
             std::string oper1 = stack_str.top(); stack_str.pop();
             std::string temp_str = oper1 + " - " + oper2;
             stack_str.push(temp_str);
-            add_mul(new Mul(4, "-", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, 2);
-            x_offset_gates += 350;
-            dist += 180;
+            add_mul(new Mul(4, "-", oper1, oper2), connection_points, x_offset_gates, temp.y() - 20, dist, 2);
+            x_offset_gates += 200;
+            dist += 10;
         }
     }
 }
@@ -307,6 +288,7 @@ void Drawer::add_mul(QWidget *gateWidget, std::vector<QPointF> &connection_point
             QPoint output = QPoint(x_offset + 130, y_offset + 80);
             QPointF p1 = connection_points[connection_points.size() - 1];
             connection_points.pop_back();
+            dist = (input1.x() - p1.x()) * 0.9;
             QPoint line_part_x_1 = QPoint(p1.x() + dist, p1.y());
             int delta_y = p1.y() - input1.y();
             QPoint line_part_x_2;
@@ -336,7 +318,7 @@ void Drawer::add_mul(QWidget *gateWidget, std::vector<QPointF> &connection_point
             connection_points.pop_back();
             QPointF p1 = connection_points.back();
             connection_points.pop_back();
-
+            dist = (input1.x() - p1.x()) * 0.9;
             QPoint line_part_x_1 = QPoint(p1.x() + dist, p1.y());
             int delta_y = p1.y() - input1.y();
             QPoint line_part_x_2;
@@ -358,6 +340,7 @@ void Drawer::add_mul(QWidget *gateWidget, std::vector<QPointF> &connection_point
             scene->addItem(line_x_3);
             elements.push_back(line_x_3);
 
+            dist = (input2.x() - p2.x()) * 0.9;
             QPoint line_part_y_1 = QPoint(p2.x() + dist, p2.y());
             int delta_y2 = p2.y() - input2.y();
             QPoint line_part_y_2;
@@ -390,8 +373,7 @@ void Drawer::drawDc(const std::string& postfixExpr) {
 
     int x_offset_operands = 50;
     int y_offset_operands = 50;
-
-    int x_offset_gates = 100;
+    int x_offset_gates = 140;
     int dist = 20;
 
     std::vector<QPointF> connection_points;
@@ -414,7 +396,7 @@ void Drawer::drawDc(const std::string& postfixExpr) {
             add_dc(new Dc(2, "&", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, "&");
             std::string temp_str = oper1 + " & " + oper2;
             stack_str.push(temp_str);
-            x_offset_gates += 350;
+            x_offset_gates += 250;
             dist += 180;
         } else if (c == '^') {
             QPointF temp = connection_points[connection_points.size() - 2];
@@ -423,7 +405,7 @@ void Drawer::drawDc(const std::string& postfixExpr) {
             std::string temp_str = oper1 + " ^ " + oper2;
             stack_str.push(temp_str);
             add_dc(new Dc(2, "^", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, "^");
-            x_offset_gates += 350;
+            x_offset_gates += 250;
             dist += 180;
         } else if (c == '|') {
             QPointF temp = connection_points[connection_points.size() - 2];
@@ -432,23 +414,23 @@ void Drawer::drawDc(const std::string& postfixExpr) {
             std::string temp_str = oper1 + " | " + oper2;
             stack_str.push(temp_str);
             add_dc(new Dc(2, "|", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, "|");
-            x_offset_gates += 350;
+            x_offset_gates += 250;
             dist += 180;
         } else if (c == '!') {
             QPointF temp = connection_points.back();
             std::string oper1 = stack_str.top(); stack_str.pop();
             std::string temp_str = "!" + oper1;
             stack_str.push(temp_str);
-            add_dc(new Dc(1, "!", oper1, "none"), connection_points, x_offset_gates, temp.y(), dist, "!");
-            x_offset_gates += 350;
+            addGate(new Invertor(), connection_points, x_offset_gates, temp.y(), 1, 0, dist, 1);
+            x_offset_gates += 250;
             dist += 180;
         } else if (c == '~') {
             QPointF temp = connection_points.back();
             std::string oper1 = stack_str.top(); stack_str.pop();
             std::string temp_str = "~" + oper1;
             stack_str.push(temp_str);
-            add_dc(new Dc(1, "~", oper1, "none"), connection_points, x_offset_gates, temp.y(), dist, "~");
-            x_offset_gates += 350;
+            addGate(new Buffer(), connection_points, x_offset_gates, temp.y(), 1, 0, dist, 0);
+            x_offset_gates += 250;
             dist += 180;
         } else if (c == '/') {
             QPointF temp = connection_points[connection_points.size() - 2];
@@ -457,7 +439,7 @@ void Drawer::drawDc(const std::string& postfixExpr) {
             std::string temp_str = oper1 + " / " + oper2;
             stack_str.push(temp_str);
             add_dc(new Dc(2, "/", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, "/");
-            x_offset_gates += 350;
+            x_offset_gates += 250;
             dist += 180;
         } else if (c == '+') {
             QPointF temp = connection_points[connection_points.size() - 2];
@@ -465,11 +447,11 @@ void Drawer::drawDc(const std::string& postfixExpr) {
             std::string oper1 = stack_str.top(); stack_str.pop();
             std::string temp_str = oper1 + " + " + oper2;
             stack_str.push(temp_str);
-            add_dc(new Dc(2, "+", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, "temp");
-            x_offset_gates += 350;
+            add_dc(new Dc(2, "+", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, "+");
+            x_offset_gates += 250;
             dist += 180;
             add_dc(new Dc(2, "+", oper1, oper2), connection_points, x_offset_gates, temp.y() + 40, dist, "|");
-            x_offset_gates += 350;
+            x_offset_gates += 250;
             dist += 180;
         } else if (c == '-') {
             QPointF temp = connection_points[connection_points.size() - 2];
@@ -478,7 +460,10 @@ void Drawer::drawDc(const std::string& postfixExpr) {
             std::string temp_str = oper1 + " - " + oper2;
             stack_str.push(temp_str);
             add_dc(new Dc(2, "-", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, "-");
-            x_offset_gates += 350;
+            x_offset_gates += 250;
+            dist += 180;
+            add_dc(new Dc(2, "+", oper1, oper2), connection_points, x_offset_gates, temp.y() + 40, dist, "/");
+            x_offset_gates += 250;
             dist += 180;
         }
     }
@@ -498,22 +483,41 @@ void Drawer::add_dc(QWidget *gateWidget, std::vector<QPointF> &connection_points
 
         input1 = QPoint(x_offset + 10, y_offset + 30);
         input2 = QPoint(x_offset + 10, y_offset + 70);
+
         if (func == "&") {
             output = QPoint(x_offset + 130, y_offset + 115);
         }
+
         else if (func == "|") {
             output = QPoint(x_offset + 130, y_offset + 25);
             draw_ellipse(output);
         }
-        else if (func == "temp") {
+
+        else if (func == "+") {
             output = QPoint(x_offset + 130, y_offset + 55);
             output_extra = QPoint(x_offset + 130, y_offset + 85);
         }
+
+        else if (func == "^") {
+            output = QPoint(x_offset + 130, y_offset + 115);
+            draw_ellipse(output);
+        }
+
+        else if (func == "/") {
+            output = QPoint(x_offset + 130, y_offset + 25);
+        }
+
+        else if (func == "-") {
+            output = QPoint(x_offset + 130, y_offset + 55);
+            output_extra = QPoint(x_offset + 130, y_offset + 85);
+        }
+
 
             QPointF p2 = connection_points.back();
             connection_points.pop_back();
             QPointF p1 = connection_points.back();
             connection_points.pop_back();
+            dist = (input1.x() - p1.x()) * 0.9;
 
             QPoint line_part_x_1 = QPoint(p1.x() + dist, p1.y());
             int delta_y = p1.y() - input1.y();
@@ -535,6 +539,7 @@ void Drawer::add_dc(QWidget *gateWidget, std::vector<QPointF> &connection_points
             elements.push_back(line_x_2);
             scene->addItem(line_x_3);
             elements.push_back(line_x_3);
+            dist = (input2.x() - p2.x()) * 0.9;
 
             QPoint line_part_y_1 = QPoint(p2.x() + dist, p2.y());
             int delta_y2 = p2.y() - input2.y();
@@ -557,11 +562,11 @@ void Drawer::add_dc(QWidget *gateWidget, std::vector<QPointF> &connection_points
             scene->addItem(line2_x_3);
             elements.push_back(line2_x_3);
 
-            if (func == "|") {
+            if (func == "|" or func == "^") {
                 output = QPoint(output.x() + 10, output.y());
             }
             connection_points.push_back(output);
-            if (func == "temp") {
+            if (func == "+" or func == "-") {
                 connection_points.push_back(output_extra);
             }
             break;
@@ -574,7 +579,7 @@ void Drawer::drawCd(const std::string& postfixExpr) {
     int x_offset_operands = 50;
     int y_offset_operands = 50;
 
-    int x_offset_gates = 100;
+    int x_offset_gates = 140;
     int dist = 20;
 
     std::vector<QPointF> connection_points;
@@ -594,10 +599,10 @@ void Drawer::drawCd(const std::string& postfixExpr) {
             QPointF temp = connection_points[connection_points.size() - 2];
             std::string oper2 = stack_str.top(); stack_str.pop();
             std::string oper1 = stack_str.top(); stack_str.pop();
-            add_dc(new Cd(2, "&", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, "&");
+            add_cd(new Cd(2, "&", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, "&");
             std::string temp_str = oper1 + " & " + oper2;
             stack_str.push(temp_str);
-            x_offset_gates += 350;
+            x_offset_gates += 250;
             dist += 180;
         } else if (c == '^') {
             QPointF temp = connection_points[connection_points.size() - 2];
@@ -605,8 +610,8 @@ void Drawer::drawCd(const std::string& postfixExpr) {
             std::string oper1 = stack_str.top(); stack_str.pop();
             std::string temp_str = oper1 + " ^ " + oper2;
             stack_str.push(temp_str);
-            add_dc(new Cd(2, "^", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, "^");
-            x_offset_gates += 350;
+            add_cd(new Cd(2, "^", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, "^");
+            x_offset_gates += 250;
             dist += 180;
         } else if (c == '|') {
             QPointF temp = connection_points[connection_points.size() - 2];
@@ -614,24 +619,24 @@ void Drawer::drawCd(const std::string& postfixExpr) {
             std::string oper1 = stack_str.top(); stack_str.pop();
             std::string temp_str = oper1 + " | " + oper2;
             stack_str.push(temp_str);
-            add_dc(new Cd(2, "|", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, "|");
-            x_offset_gates += 350;
+            add_cd(new Cd(2, "|", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, "|");
+            x_offset_gates += 250;
             dist += 180;
         } else if (c == '!') {
             QPointF temp = connection_points.back();
             std::string oper1 = stack_str.top(); stack_str.pop();
             std::string temp_str = "!" + oper1;
             stack_str.push(temp_str);
-            add_dc(new Cd(1, "!", oper1, "none"), connection_points, x_offset_gates, temp.y(), dist, "!");
-            x_offset_gates += 350;
+            addGate(new Invertor(), connection_points, x_offset_gates, temp.y(), 1, 0, dist, 1);
+            x_offset_gates += 250;
             dist += 180;
         } else if (c == '~') {
             QPointF temp = connection_points.back();
             std::string oper1 = stack_str.top(); stack_str.pop();
             std::string temp_str = "~" + oper1;
             stack_str.push(temp_str);
-            add_dc(new Cd(1, "~", oper1, "none"), connection_points, x_offset_gates, temp.y(), dist, "~");
-            x_offset_gates += 350;
+            addGate(new Buffer(), connection_points, x_offset_gates, temp.y(), 1, 0, dist, 1);
+            x_offset_gates += 250;
             dist += 180;
         } else if (c == '/') {
             QPointF temp = connection_points[connection_points.size() - 2];
@@ -639,8 +644,8 @@ void Drawer::drawCd(const std::string& postfixExpr) {
             std::string oper1 = stack_str.top(); stack_str.pop();
             std::string temp_str = oper1 + " / " + oper2;
             stack_str.push(temp_str);
-            add_dc(new Cd(2, "/", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, "/");
-            x_offset_gates += 350;
+            add_cd(new Cd(2, "/", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, "/");
+            x_offset_gates += 250;
             dist += 180;
         } else if (c == '+') {
             QPointF temp = connection_points[connection_points.size() - 2];
@@ -648,8 +653,26 @@ void Drawer::drawCd(const std::string& postfixExpr) {
             std::string oper1 = stack_str.top(); stack_str.pop();
             std::string temp_str = oper1 + " + " + oper2;
             stack_str.push(temp_str);
-            add_dc(new Cd(2, "+", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, "+");
-            x_offset_gates += 350;
+            add_cd(new Cd(2, "+", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, "+1");
+            QGraphicsTextItem* operand = new QGraphicsTextItem(QString::fromStdString(oper1));
+            operand->setPos(x_offset_operands, y_offset_operands);
+            scene->addItem(operand);
+            elements.push_back(operand);
+            stack_str.push(oper1);
+            connection_points.push_back(QPointF(x_offset_operands, y_offset_operands));
+            y_offset_operands += 150;
+            QGraphicsTextItem* operand2 = new QGraphicsTextItem(QString::fromStdString(oper2));
+            operand2->setPos(x_offset_operands, y_offset_operands);
+            scene->addItem(operand2);
+            elements.push_back(operand2);
+            stack_str.push(oper2);
+            connection_points.push_back(QPointF(x_offset_operands, y_offset_operands));
+            y_offset_operands += 150;
+            add_cd(new Cd(2, "+", oper1, oper2), connection_points, x_offset_gates, temp.y() + 250, dist, "+2");
+            x_offset_gates += 250;
+            dist += 180;
+            add_cd(new Cd(2, "&", oper1, oper2), connection_points, x_offset_gates, temp.y() + 125, dist, "&");
+            x_offset_gates += 250;
             dist += 180;
         } else if (c == '-') {
             QPointF temp = connection_points[connection_points.size() - 2];
@@ -657,8 +680,26 @@ void Drawer::drawCd(const std::string& postfixExpr) {
             std::string oper1 = stack_str.top(); stack_str.pop();
             std::string temp_str = oper1 + " - " + oper2;
             stack_str.push(temp_str);
-            add_dc(new Cd(2, "-", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, "-");
-            x_offset_gates += 350;
+            add_cd(new Cd(2, "-", oper1, oper2), connection_points, x_offset_gates, temp.y(), dist, "-1");
+            QGraphicsTextItem* operand = new QGraphicsTextItem(QString::fromStdString(oper1));
+            operand->setPos(x_offset_operands, y_offset_operands);
+            scene->addItem(operand);
+            elements.push_back(operand);
+            stack_str.push(oper1);
+            connection_points.push_back(QPointF(x_offset_operands, y_offset_operands));
+            y_offset_operands += 150;
+            QGraphicsTextItem* operand2 = new QGraphicsTextItem(QString::fromStdString(oper2));
+            operand2->setPos(x_offset_operands, y_offset_operands);
+            scene->addItem(operand2);
+            elements.push_back(operand2);
+            stack_str.push(oper2);
+            connection_points.push_back(QPointF(x_offset_operands, y_offset_operands));
+            y_offset_operands += 150;
+            add_cd(new Cd(2, "-", oper1, oper2), connection_points, x_offset_gates, temp.y() + 250, dist, "-2");
+            x_offset_gates += 250;
+            dist += 180;
+            add_cd(new Cd(2, "^", oper1, oper2), connection_points, x_offset_gates, temp.y() + 125, dist, "^");
+            x_offset_gates += 250;
             dist += 180;
         }
     }
@@ -674,59 +715,31 @@ void Drawer::add_cd(QWidget *gateWidget, std::vector<QPointF> &connection_points
         QPoint input1;
         QPoint input2;
         QPoint output;
+        int reverse = 1;
 
-        input1 = QPoint(x_offset + 10, y_offset + 30);
-        input2 = QPoint(x_offset + 10, y_offset + 70);
-        if (func == "&") {
-            output = QPoint(x_offset + 130, y_offset + 115);
-            draw_ellipse(output);
-        }
-        else if (func == "|") {
-            output = QPoint(x_offset + 130, y_offset + 25);
+        input1 = QPoint(x_offset + 10, y_offset + 73);
+        input2 = QPoint(x_offset + 10, y_offset + 98);
+
+        if(func == "+2" or func == "-2") {
+            reverse = -1;
         }
 
-        /*if (inputs == 1) {
-            QPoint input1 = QPoint(x_offset + 10, y_offset + 30);
-            QPoint output = QPoint(x_offset + 130, y_offset + 80);
-            QPointF p1 = connection_points[connection_points.size() - 1];
-            connection_points.pop_back();
-            QPoint line_part_x_1 = QPoint(p1.x() + dist, p1.y());
-            int delta_y = p1.y() - input1.y();
-            QPoint line_part_x_2;
-            if (delta_y <= 0) {
-                line_part_x_2 = QPoint(p1.x() + dist, p1.y() + (-1 * delta_y));
-            }
-            else {
-                line_part_x_2 = QPoint(p1.x() + dist, p1.y() + delta_y);
-            }
-
-            QGraphicsLineItem* line_x_1 = new QGraphicsLineItem(p1.x(), p1.y(), line_part_x_1.x(), line_part_x_1.y());
-            QGraphicsLineItem* line_x_2 = new QGraphicsLineItem(line_part_x_1.x(), line_part_x_1.y(), line_part_x_2.x(), line_part_x_2.y());
-            QGraphicsLineItem* line_x_3 = new QGraphicsLineItem(line_part_x_2.x(), line_part_x_2.y(), input1.x(), input1.y());
-
-            scene->addItem(line_x_1);
-            elements.push_back(line_x_1);
-            scene->addItem(line_x_2);
-            elements.push_back(line_x_2);
-            scene->addItem(line_x_3);
-            elements.push_back(line_x_3);
-            connection_points.push_back(output);
-            break;
-        } */
 
         QPointF p2 = connection_points.back();
         connection_points.pop_back();
         QPointF p1 = connection_points.back();
         connection_points.pop_back();
 
+        dist = (input1.x() - p1.x()) * 0.9;
+
         QPoint line_part_x_1 = QPoint(p1.x() + dist, p1.y());
         int delta_y = p1.y() - input1.y();
         QPoint line_part_x_2;
         if (delta_y <= 0) {
-            line_part_x_2 = QPoint(p1.x() + dist, p1.y() + (-1 * delta_y));
+            line_part_x_2 = QPoint(p1.x() + dist, p1.y() + (-1 * delta_y * reverse));
         }
         else {
-            line_part_x_2 = QPoint(p1.x() + dist, p1.y() + delta_y);
+            line_part_x_2 = QPoint(p1.x() + dist, p1.y() + delta_y * reverse);
         }
 
         QGraphicsLineItem* line_x_1 = new QGraphicsLineItem(p1.x(), p1.y(), line_part_x_1.x(), line_part_x_1.y());
@@ -740,14 +753,16 @@ void Drawer::add_cd(QWidget *gateWidget, std::vector<QPointF> &connection_points
         scene->addItem(line_x_3);
         elements.push_back(line_x_3);
 
+        dist = (input2.x() - p2.x()) * 0.9;
+
         QPoint line_part_y_1 = QPoint(p2.x() + dist, p2.y());
         int delta_y2 = p2.y() - input2.y();
         QPoint line_part_y_2;
         if (delta_y <= 0) {
-            line_part_y_2 = QPoint(p2.x() + dist, p2.y() + (-1 * delta_y2));
+            line_part_y_2 = QPoint(p2.x() + dist, p2.y() + (-1 * delta_y2 + reverse));
         }
         else {
-            line_part_y_2 = QPoint(p2.x() + dist, p2.y() + delta_y2);
+            line_part_y_2 = QPoint(p2.x() + dist, p2.y() + delta_y2 * reverse);
         }
 
         QGraphicsLineItem* line2_x_1 = new QGraphicsLineItem(p2.x(), p2.y(), line_part_y_1.x(), line_part_y_1.y());
@@ -762,6 +777,35 @@ void Drawer::add_cd(QWidget *gateWidget, std::vector<QPointF> &connection_points
         elements.push_back(line2_x_3);
 
         if (func == "&") {
+            output = QPoint(x_offset + 130, y_offset + 50);
+            draw_ellipse(output);
+            draw_ellipse(QPoint(input1.x() - 10, input1.y()));
+            draw_ellipse(QPoint(input2.x() - 10, input2.y()));
+            output = QPoint(output.x() + 10, output.y());
+        }
+        else if (func == "|") {
+            output = QPoint(x_offset + 130, y_offset + 50);
+        }
+        else if (func == "^") {
+            output = QPoint(x_offset + 130, y_offset + 50);
+            draw_ellipse(QPoint(input1.x() - 10, input1.y()));
+            draw_ellipse(QPoint(input2.x() - 10, input2.y()));
+        }
+        else if(func == "/") {
+            output = QPoint(x_offset + 130, y_offset + 50);
+            draw_ellipse(output);
+            output = QPoint(output.x() + 10, output.y());
+        }
+        else if(func == "+1" or func == "-1") {
+            output = QPoint(x_offset + 130, y_offset + 50);
+            draw_ellipse(output);
+            output = QPoint(output.x() + 10, output.y());
+        }
+        else if(func == "+2" or func == "-2") {
+            output = QPoint(x_offset + 130, y_offset + 50);
+            draw_ellipse(output);
+            draw_ellipse(QPoint(input1.x() - 10, input1.y()));
+            draw_ellipse(QPoint(input2.x() - 10, input2.y()));
             output = QPoint(output.x() + 10, output.y());
         }
         connection_points.push_back(output);
@@ -781,9 +825,7 @@ void Drawer::clearScene() {
 
 void Drawer::draw_ellipse(QPoint center) {
     QGraphicsEllipseItem* ellipse = new QGraphicsEllipseItem(center.x(), center.y() - 5, 10, 10);
-    ellipse->setBrush(Qt::white);  // Устанавливаем белый цвет заливкиу
+    ellipse->setBrush(Qt::white);
     scene->addItem(ellipse);
     elements.push_back(ellipse);
 }
-
-

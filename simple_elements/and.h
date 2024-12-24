@@ -1,9 +1,7 @@
 #ifndef AND_H
 #define AND_H
 
-#include <QWidget>
-#include <QPainter>
-#include <QPainterPath>
+#include "../headers.h"
 
 class And : public QWidget {
     Q_OBJECT

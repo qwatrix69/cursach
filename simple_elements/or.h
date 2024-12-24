@@ -1,9 +1,7 @@
 #ifndef OR_H
 #define OR_H
 
-#include <QWidget>
-#include <QPainter>
-#include <QPainterPath>
+#include "../headers.h"
 
 class Or : public QWidget {
     Q_OBJECT

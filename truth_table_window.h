@@ -1,10 +1,7 @@
 #ifndef TRUTH_TABLE_WINDOW_H
 #define TRUTH_TABLE_WINDOW_H
 
-#include <QWidget>
-#include <QStringList>
-#include <QTableWidget>
-#include <stack>
+#include "headers.h"
 
 class TruthTableWindow : public QWidget
 {

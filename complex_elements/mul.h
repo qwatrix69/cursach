@@ -1,9 +1,7 @@
 #ifndef MUL_H
 #define MUL_H
 
-#include <QWidget>
-#include <QPainter>
-#include <QPainterPath>
+#include "../headers.h"
 
 class Mul : public QWidget {
     Q_OBJECT

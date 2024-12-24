@@ -1,9 +1,7 @@
 #ifndef XNOR_H
 #define XNOR_H
 
-#include <QWidget>
-#include <QPainter>
-#include <QPainterPath>
+#include "../headers.h"
 
 class Xnor : public QWidget {
     Q_OBJECT

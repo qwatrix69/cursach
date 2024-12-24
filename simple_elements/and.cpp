@@ -1,7 +1,4 @@
 #include "and.h"
-#include <QGraphicsProxyWidget>
-#include <QPainter>
-#include <QPainterPath>
 
 And::And(QWidget *parent) : QWidget(parent) {
     setFixedSize(200, 110);
